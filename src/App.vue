@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup lang="js">
 import Category from './components/Category.vue';
-import Pic1 from './assets/images/burger.jpg';
+import Pic1 from './assets/images/burger.png';
 import Pic2 from './assets/images/persimmon.png';
 import Pic3 from './assets/images/kiwi.png';
 import Pic4 from './assets/images/cat-9 1.png';
