@@ -14,25 +14,57 @@ import Promotion from './components/Promotion.vue';
 import Promote1 from './assets/images/Cms-04 1.png';
 import Promote2 from './assets/images/Cat-01 1.png';
 import Promote3 from './assets/images/Cms-03 1.png';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
-const Categories = [
-  { item: Pic1, message: "Cake & Milk", amount: 14, color: "#F2FCE4" }, 
-  { item: Pic2, message: "Peach", amount: 17, color: "#FFFCEB" },
-  { item: Pic3, message: "Organic Kiwi", amount: 21, color: "#ECFFEC" },
-  { item: Pic4, message: "Red Apple", amount: 68, color: "#FEEFEA" },
-  { item: Pic5, message: "Snack", amount: 34, color: "#FFF3EB" },
-  { item: Pic6, message: "Black Plum", amount: 25, color: "#FFF3FF" },
-  { item: Pic7, message: "Vegetable", amount: 65, color: "#F2FCE4" },
-  { item: Pic8, message: "Headphone", amount: 33, color: "#FFFCEB" },
-  { item: Pic9, message: "Cake & Milk", amount: 54, color: "#F2FCE4" },
-  { item: Pic10, message: "Orange", amount: 63, color: "#FFF3FF" },
-]
+// const Categories = [
+//   { item: Pic1, message: "Cake & Milk", amount: 14, color: "#F2FCE4" }, 
+//   { item: Pic2, message: "Peach", amount: 17, color: "#FFFCEB" },
+//   { item: Pic3, message: "Organic Kiwi", amount: 21, color: "#ECFFEC" },
+//   { item: Pic4, message: "Red Apple", amount: 68, color: "#FEEFEA" },
+//   { item: Pic5, message: "Snack", amount: 34, color: "#FFF3EB" },
+//   { item: Pic6, message: "Black Plum", amount: 25, color: "#FFF3FF" },
+//   { item: Pic7, message: "Vegetable", amount: 65, color: "#F2FCE4" },
+//   { item: Pic8, message: "Headphone", amount: 33, color: "#FFFCEB" },
+//   { item: Pic9, message: "Cake & Milk", amount: 54, color: "#F2FCE4" },
+//   { item: Pic10, message: "Orange", amount: 63, color: "#FFF3FF" },
+// ]
 
-const Promotions = [
-  {text: "Everyday Fresh & Clean with Our Products", color: "#F0E8D5", pic: Promote1, btnColor: "#3BB77E"},
-  {text: "Make your Breakfast Healthy and Easy", color: "#F3E8E8", pic: Promote2, btnColor: "#3BB77E"},
-  {text: "The best Organic Products Online", color: "#E7EAF3", pic: Promote3, btnColor: "#FDC040"},
-]
+const Categories = ref([]);
+
+const fetchCategories = async () => {
+  try{
+    const response = await axios.get('http://localhost:3000/api/categories');
+    Categories.value = response.data;
+    // Process the fetched data as needed
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+  }
+}
+
+// const Promotions = [
+//   {text: "Everyday Fresh & Clean with Our Products", color: "#F0E8D5", pic: Promote1, btnColor: "#3BB77E"},
+//   {text: "Make your Breakfast Healthy and Easy", color: "#F3E8E8", pic: Promote2, btnColor: "#3BB77E"},
+//   {text: "The best Organic Products Online", color: "#E7EAF3", pic: Promote3, btnColor: "#FDC040"},
+// ]
+
+const Promotions = ref([]);
+
+const fetchPromotions = async () => {
+  try{
+    const response = await axios.get('http://localhost:3000/api/promotions');
+    Promotions.value = response.data;
+    // Process the fetched data as needed
+  } catch (error) {
+    console.error('Error fetching promotions:', error);
+  }
+}
+
+
+onMounted(() => {
+  fetchCategories();
+  fetchPromotions();
+})
 </script>
 
 <template>
@@ -42,9 +74,9 @@ const Promotions = [
         <Category 
           v-for="(cat, index) in Categories" 
           :key="index" 
-          :picture="cat.item" 
-          :message="cat.message" 
-          :amount="cat.amount" 
+          :picture="cat.image" 
+          :message="cat.name" 
+          :amount="cat.productCount" 
           :color="cat.color"
         />
         
@@ -54,10 +86,10 @@ const Promotions = [
       <Promotion
         v-for="(promo, index) in Promotions"
         :key="index"
-        :text="promo.text"
+        :text="promo.title"
         :color="promo.color"
-        :pic="promo.pic"
-        :btncolor="promo.btnColor"
+        :pic="promo.image"
+        :btncolor="promo.buttonColor"
       />
     </div>
 

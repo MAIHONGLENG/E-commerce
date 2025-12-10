@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+const API_URL = 'http://localhost:3000/';
 // ... script remains the same
 const props = defineProps<{
   picture: string;
@@ -6,11 +9,15 @@ const props = defineProps<{
   color: string;
   amount: number;
 }>();
+
+const ImageUrl = computed(() => {
+  return `${API_URL}${props.picture}`;
+})
 </script>
 
 <template>
 <div :style="{backgroundColor: color}" class="flex flex-col items-center justify-center w-32 h-40 rounded-md p-4">
-    <img :src="props.picture" alt="pic" class="w-28 h-28 object-contain"/> 
+    <img :src="ImageUrl" alt="pic" class="w-28 h-28 object-contain"/> 
     <h5 class="font-bold text-black text-sm text-center">{{ props.message }}</h5> 
     <span class="text-xs text-[#B6B6B6]">{{ props.amount }} items</span> 
   </div>    

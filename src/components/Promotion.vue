@@ -1,12 +1,17 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import Button from './Button.vue';
 
+const API_URL = 'http://localhost:3000/';
 const props = defineProps<{
   text: string;
   color: string;
   pic: string;
   btncolor: string;
 }>();
+const ImageUrl = computed(() => {
+  return `${API_URL}${props.pic}`
+})
 </script>
 
 <template>
@@ -24,7 +29,7 @@ const props = defineProps<{
 
     <!-- Right: Image -->
     <img
-      :src="props.pic"
+      :src="ImageUrl"
       alt="pic"
       class="absolute bottom-0 right-4 h-3/4 object-contain"
     />
